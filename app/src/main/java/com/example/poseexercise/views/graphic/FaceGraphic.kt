@@ -1,8 +1,11 @@
 package com.example.poseexercise.views.graphic
 
+import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.media.MediaPlayer
+import com.example.poseexercise.R
 import com.example.poseexercise.views.graphic.GraphicOverlay.Graphic
 import com.google.mlkit.vision.face.Face
 import com.google.mlkit.vision.face.FaceLandmark
@@ -11,12 +14,13 @@ import kotlin.math.abs
 import kotlin.math.max
 
 /** Graphic instance for rendering face contours graphic overlay view. */
-class FaceGraphic constructor(overlay: GraphicOverlay?, private val face: Face) : Graphic(overlay) {
+class FaceGraphic constructor(overlay: GraphicOverlay?, private val face: Face, private val context: Context) : Graphic(overlay) {
     private val facePositionPaint: Paint
     private val numColors = COLORS.size
     private val idPaints = Array(numColors) { Paint() }
     private val boxPaints = Array(numColors) { Paint() }
     private val labelPaints = Array(numColors) { Paint() }
+    private var mediaPlayer: MediaPlayer? = null
 
     init {
         val selectedColor = Color.WHITE
@@ -34,6 +38,9 @@ class FaceGraphic constructor(overlay: GraphicOverlay?, private val face: Face) 
             labelPaints[i].color = COLORS[i][1]
             labelPaints[i].style = Paint.Style.FILL
         }
+        // Initialize MediaPlayer
+        mediaPlayer = MediaPlayer.create(context, R.raw.alert_eye_on_front)
+
     }
 
     /** Draws the face annotations for position on the supplied canvas. */
@@ -58,16 +65,6 @@ class FaceGraphic constructor(overlay: GraphicOverlay?, private val face: Face) 
 
         // Calculate width and height of label box
         var textWidth = idPaints[colorID].measureText("ID: " + face.trackingId)
-        if (face.smilingProbability != null) {
-            yLabelOffset -= lineHeight
-            textWidth =
-                max(
-                    textWidth,
-                    idPaints[colorID].measureText(
-                        String.format(Locale.US, "Happiness: %.2f", face.smilingProbability)
-                    )
-                )
-        }
         if (face.leftEyeOpenProbability != null) {
             yLabelOffset -= lineHeight
             textWidth =
@@ -139,17 +136,6 @@ class FaceGraphic constructor(overlay: GraphicOverlay?, private val face: Face) 
             }
         }
 
-        // Draws smiling and left/right eye open probabilities.
-        if (face.smilingProbability != null) {
-            canvas.drawText(
-                "Smiling: " + String.format(Locale.US, "%.2f", face.smilingProbability),
-                left,
-                top + yLabelOffset,
-                idPaints[colorID]
-            )
-            yLabelOffset += lineHeight
-        }
-
         val leftEye = face.getLandmark(FaceLandmark.LEFT_EYE)
         if (face.leftEyeOpenProbability != null) {
             canvas.drawText(
@@ -212,12 +198,28 @@ class FaceGraphic constructor(overlay: GraphicOverlay?, private val face: Face) 
         yLabelOffset += lineHeight
         canvas.drawText("EulerZ: " + face.headEulerAngleZ, left, top + yLabelOffset, idPaints[colorID])
 
+
         // Draw facial landmarks
         drawFaceLandmark(canvas, FaceLandmark.LEFT_EYE)
         drawFaceLandmark(canvas, FaceLandmark.RIGHT_EYE)
         drawFaceLandmark(canvas, FaceLandmark.LEFT_CHEEK)
         drawFaceLandmark(canvas, FaceLandmark.RIGHT_CHEEK)
     }
+
+    private fun checkHeadRotationAndPlaySound(headEulerAngleY: Float) {
+        if (abs(headEulerAngleY) > HEAD_TURN_THRESHOLD) {
+            // Play sound if not already playing
+            if (mediaPlayer != null && !mediaPlayer!!.isPlaying) {
+                mediaPlayer!!.start()
+            }
+        }
+    }
+
+    fun release() {
+        mediaPlayer?.release()
+        mediaPlayer = null
+    }
+
 
     private fun drawFaceLandmark(canvas: Canvas, @FaceLandmark.LandmarkType landmarkType: Int) {
         val faceLandmark = face.getLandmark(landmarkType)
@@ -237,6 +239,7 @@ class FaceGraphic constructor(overlay: GraphicOverlay?, private val face: Face) 
         private const val ID_Y_OFFSET = 40.0f
         private const val BOX_STROKE_WIDTH = 5.0f
         private const val NUM_COLORS = 10
+        private const val HEAD_TURN_THRESHOLD = 20.0f
         private val COLORS =
             arrayOf(
                 intArrayOf(Color.BLACK, Color.WHITE),
