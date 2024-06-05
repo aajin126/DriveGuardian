@@ -91,6 +91,8 @@ abstract class CameraActivity : AppCompatActivity(), ImageReader.OnImageAvailabl
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         setContentView(R.layout.tfe_od_activity_camera)
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        //비가시화
+        toolbar.visibility = View.GONE;
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayShowTitleEnabled(false)
         if (hasPermission()) {
@@ -99,10 +101,15 @@ abstract class CameraActivity : AppCompatActivity(), ImageReader.OnImageAvailabl
             requestPermission()
         }
         val threadsTextView = findViewById<TextView>(R.id.threads)
+        // 비가시화
+        threadsTextView.visibility = View.GONE;
         currentNumThreads = threadsTextView.getText().toString().trim { it <= ' ' }.toInt()
         val plusImageView = findViewById<ImageView>(R.id.plus)
+        plusImageView.visibility = View.GONE;
         val minusImageView = findViewById<ImageView>(R.id.minus)
+        minusImageView.visibility = View.GONE;
         val deviceView = findViewById<ListView>(R.id.device_list)
+        deviceView.visibility = View.GONE;
         deviceStrings.add("CPU")
         deviceStrings.add("GPU")
         deviceStrings.add("NNAPI")
@@ -115,10 +122,14 @@ abstract class CameraActivity : AppCompatActivity(), ImageReader.OnImageAvailabl
         currentDevice = defaultDeviceIndex
         deviceView.setOnItemClickListener { parent, view, position, id -> updateActiveModel() }
         val bottomSheetLayout = findViewById<LinearLayout>(R.id.bottom_sheet_layout)
+        bottomSheetLayout.visibility = View.GONE;
         val gestureLayout = findViewById<LinearLayout>(R.id.gesture_layout)
+        gestureLayout.visibility = View.GONE;
         sheetBehavior = BottomSheetBehavior.from(bottomSheetLayout)
         val bottomSheetArrowImageView = findViewById<ImageView>(R.id.bottom_sheet_arrow)
+        bottomSheetArrowImageView.visibility = View.GONE;
         val modelView = findViewById<ListView>(R.id.model_list)
+        modelView.visibility = View.GONE;
         modelStrings = getModelStrings(assets, ASSET_PATH)
         modelView.setChoiceMode(ListView.CHOICE_MODE_SINGLE)
         val modelAdapter = ArrayAdapter<String>(
@@ -166,8 +177,11 @@ abstract class CameraActivity : AppCompatActivity(), ImageReader.OnImageAvailabl
                 override fun onSlide(bottomSheet: View, slideOffset: Float) {}
             })
         frameValueTextView = findViewById<TextView>(R.id.frame_info)
+        frameValueTextView!!.visibility = View.GONE;
         cropValueTextView = findViewById<TextView>(R.id.crop_info)
+        cropValueTextView!!.visibility = View.GONE;
         inferenceTimeTextView = findViewById<TextView>(R.id.inference_info)
+        inferenceTimeTextView!!.visibility = View.GONE;
         plusImageView.setOnClickListener(this)
         minusImageView.setOnClickListener(this)
     }
