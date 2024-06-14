@@ -17,12 +17,23 @@
 
 ## Features
 
-- **Pose Detection AI Model:** Accurate detection of user poses to evaluate exercise form.
-- **Pose Classification:** Identify and classify different exercise poses for precise feedback.
-- **Repetition Counting:** The AI model accurately counts repetitions for each exercise, helping users track their progress
-- **Real-Time Feedback:** The app uses MediaPipe Pose Landmark Detection to analyze the user's exercise form in real-time. Currently it checks the confidence level of yoga and informs the user about the confidence percentage on it.
-- **Exercise Plan:** Users can create customized exercise plans, specifying the number of repetitions for each exercise. Plans can be based on specific exercises, allowing for a personalized workout routine.
-- **Room Database:** RepDetect utilizes the Room database to store and manage exercise plans and workout results.
-- **Voice Notifications:** Receive voice notifications at the start and completion of exercises for a seamless workout experience.
-- **Exercise History:** The app maintains a detailed exercise history, providing users with insights into their performance over time. Users can view weekly and daily summaries, helping them stay motivated and on track.
-- **Camera Flipping:** Easily switch between front and back cameras for varied workout perspectives.
+- **Pose Detection AI Model:** 운전자의 자리 이탈과 전방 미주시를 감지하기 위해 사용한다. 
+- **Object Detection AI Model:** 운전자 흡연과 하품을 감지하기 위해 yolov5로 training한 결과 모델을 사용한다. 
+- **Landmark Detection AI Model:** 눈 깜박임과 눈 크기를 감지하기 위해 Landmark Detection 모델을 사용한다.
+- **Visual Notifications:** 부주의나 졸린상태가 감지되면 시각적 알림을 화면에 팝업으로 띄운다. 
+- **Voice Notifications:** 부주의나 졸린상태가 감지되면 각 상태에 맞는 알람을 음성으로 제시한다. 
+- **Google Map:** Drive Guardian을 사용하면서 Google Map으로 길찾기 기능까지 제공한다.
+
+## Installation
+
+1. Clone the repository
+    ```http
+     https://github.com/SurajKRB/RepDetect.git
+    ```
+2. Android Studio에서 파일을 Open한다. 
+
+3. Android device나 emulator를 사용하여 build 후 run한다. 
+
+OR--
+1. (Apk 주소)를 Android phone에 다운로드 한다. 
+2. Remember to "Allowing app installs from Unknown Sources in Android"
