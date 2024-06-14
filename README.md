@@ -44,3 +44,16 @@ OR--
  
 ## About Drive Guardian
 <img width="900" height="400" src="https://github.com/aajin126/DriveGuardian/assets/122766068/d0341b25-a2ef-4cd9-96a8-f069be279e16" alt="DG">
+
+### 부주의 상태
+<img width="900" height="400" src="https://github.com/aajin126/DriveGuardian/assets/122766068/bd3e6237-7e49-407c-98f8-8a143d9051ca" alt="부주의1">
+<img width="900" height="400" src="https://github.com/aajin126/DriveGuardian/assets/122766068/cdc12391-b858-4263-b834-aae35a879fad" alt="부주의2">
+<img width="900" height="400" src="https://github.com/aajin126/DriveGuardian/assets/122766068/0c296a4c-f3b5-4c9b-9eff-1b34def41261" alt="부주의3">
+
+### 졸린 상태
+<img width="900" height="400" src="https://github.com/aajin126/DriveGuardian/assets/122766068/8c2654b5-2d46-481a-a2d3-9f076972354a" alt="졸린1">
+<img width="900" height="400" src="https://github.com/aajin126/DriveGuardian/assets/122766068/e0cfadac-406e-48f5-85af-252aeae3cf3b" alt="졸린2">
+
+### Alert 
+<img width="800" height="400" src="https://github.com/aajin126/DriveGuardian/assets/122766068/9f00db37-0cc2-448d-873e-cd7f2b128343" alt="알람">
+
