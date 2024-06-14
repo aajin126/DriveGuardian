@@ -2,7 +2,10 @@
 <h1 align="center">Drive Guardian</h1> 
 
 <h3 align="center">Monitoring for all drivers.</h3>
-![image](https://github.com/aajin126/DriveGuardian/assets/122766068/c4d47d53-7d6b-48e1-a244-2c4c8cefd16d)
+
+<p align="center">
+  <img width="200" height="160" src="https://github.com/aajin126/DriveGuardian/assets/122766068/c4d47d53-7d6b-48e1-a244-2c4c8cefd16d" alt="App Logo">
+</p>
 
 
 ## Overview
