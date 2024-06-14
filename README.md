@@ -20,7 +20,7 @@
   ##### - 흡연 탐지 yolov5 training 코드
 ##### 그 외 나머지 코드는 전부 Android Studio에서 가동되는 App 코드입니다. 
 
-## How To Install
+## How To Install & Build
 
 1. Clone the repository
     ```http
