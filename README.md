@@ -55,5 +55,5 @@ OR--
 <img width="900" height="400" src="https://github.com/aajin126/DriveGuardian/assets/122766068/e0cfadac-406e-48f5-85af-252aeae3cf3b" alt="졸린2">
 
 ### Alert 
-<img width="800" height="400" src="https://github.com/aajin126/DriveGuardian/assets/122766068/9f00db37-0cc2-448d-873e-cd7f2b128343" alt="알람">
+<img width="900" height="450" src="https://github.com/aajin126/DriveGuardian/assets/122766068/9f00db37-0cc2-448d-873e-cd7f2b128343" alt="알람">
 
