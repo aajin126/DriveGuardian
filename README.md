@@ -24,7 +24,7 @@
 - **Voice Notifications:** 부주의나 졸린상태가 감지되면 각 상태에 맞는 알람을 음성으로 제시한다. 
 - **Google Map:** Drive Guardian을 사용하면서 Google Map으로 길찾기 기능까지 제공한다.
 
-  #### Using Open Source : MLkit의 Pose Estimation, Landmark Detection을 Open Source로 사용하였고, yolov5 모델을 사용하였습니다. 
+#### Using Open Source : MLkit의 Pose Estimation, Landmark Detection을 Open Source로 사용하였고, yolov5 모델을 사용하였습니다. 
 
 ## Installation
 
