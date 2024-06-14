@@ -15,10 +15,10 @@
 ##### 졸음 운전이나 운전 중 부주의에 취약한 화물차 운전자 및 택배 운전자를 대상으로 실시간 탐지 속도를 유지하면서도 높은 접근성을 가지도록 운전자 모니터링 서비스를 앱으로 제공하는 것.
 
 ## About Source Code
-### Training 폴더의 python code
+#### Training 폴더의 python code
   ##### - 하품 탐지 yolov5 training 코드
   ##### - 흡연 탐지 yolov5 training 코드
-### 그 외 나머지 코드는 전부 Android Studio에서 가동되는 App 코드입니다. 
+##### 그 외 나머지 코드는 전부 Android Studio에서 가동되는 App 코드입니다. 
 
 ## How To Install
 
