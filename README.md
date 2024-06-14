@@ -4,7 +4,7 @@
 <h3 align="center">Monitoring for all drivers.</h3>
 
 <p align="center">
-  <img width="200" height="160" src="https://github.com/aajin126/DriveGuardian/assets/122766068/4a55ab06-4c46-43df-b0d5-e5962e4a708c" alt="App Logo">
+  <img width="200" height="200" src="https://github.com/aajin126/DriveGuardian/assets/122766068/4a55ab06-4c46-43df-b0d5-e5962e4a708c" alt="App Logo">
 </p>
 
 
