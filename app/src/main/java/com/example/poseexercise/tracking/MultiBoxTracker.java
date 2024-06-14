@@ -139,11 +139,15 @@ public class MultiBoxTracker {
     for (final TrackedRecognition recognition : trackedObjects) {
       final RectF trackedPos = new RectF(recognition.location);
 
-      getFrameToCanvasMatrix().mapRect(trackedPos);
+      final RectF invertedtrackedPos = invertYAxis(trackedPos);
+
+      getFrameToCanvasMatrix().mapRect(invertedtrackedPos);
       boxPaint.setColor(recognition.color);
 
-      float cornerSize = Math.min(trackedPos.width(), trackedPos.height()) / 8.0f;
-      canvas.drawRect(trackedPos, boxPaint); 
+      //float cornerSize = Math.min(trackedPos.width(), trackedPos.height()) / 8.0f;
+
+      canvas.drawRect(invertedtrackedPos, boxPaint);
+
 
       final String labelString =
               !TextUtils.isEmpty(recognition.title)
@@ -151,9 +155,20 @@ public class MultiBoxTracker {
                       : String.format("%.2f", (100 * recognition.detectionConfidence));
       //            borderedText.drawText(canvas, trackedPos.left + cornerSize, trackedPos.top,
       // labelString);
-      borderedText.drawText(
-              canvas, trackedPos.left + cornerSize, trackedPos.top, labelString + "%", boxPaint);
+      //borderedText.drawText(
+      //  canvas, trackedPos.left + cornerSize, trackedPos.top, labelString + "%", boxPaint);
+
     }
+  }
+
+  public static RectF invertYAxis(RectF rect){
+    // y축 반전을 위한 상단과 하단 좌표 교환
+    float invertedRight = rect.left;
+    float invertedLeft = rect.right;
+
+    // 새로운 RectF 객체 반환
+    return new RectF(invertedLeft, rect.top, invertedRight, rect.bottom);
+
   }
 
   private void processResults(final List<Recognition> results) {
