@@ -40,6 +40,6 @@ OR--
 #### Using Open Source : MLkit의 Pose Estimation, Landmark Detection을 Open Source로 사용하였고, yolov5 모델을 사용하였습니다. 
 
 ## Background
- <img width="750" height="400" src="https://github.com/aajin126/DriveGuardian/assets/122766068/e5a5629d-94b8-453e-aa5f-4c8ecfb3fc63" alt="Background">
+ <img width="800" height="400" src="https://github.com/aajin126/DriveGuardian/assets/122766068/e5a5629d-94b8-453e-aa5f-4c8ecfb3fc63" alt="Background">
 
 
