@@ -41,5 +41,6 @@ OR--
 
 ## Background
  <img width="900" height="400" src="https://github.com/aajin126/DriveGuardian/assets/122766068/e5a5629d-94b8-453e-aa5f-4c8ecfb3fc63" alt="Background">
-
-
+ 
+## About Drive Guardian
+<img width="900" height="400" src="https://github.com/aajin126/DriveGuardian/assets/122766068/d0341b25-a2ef-4cd9-96a8-f069be279e16" alt="DG">
