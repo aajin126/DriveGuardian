@@ -14,7 +14,7 @@
 ### Primary Objective
 ##### 졸음 운전이나 운전 중 부주의에 취약한 화물차 운전자 및 택배 운전자를 대상으로 실시간 탐지 속도를 유지하면서도 높은 접근성을 가지도록 운전자 모니터링 서비스를 앱으로 제공하는 것.
 
-## Installation
+## How To Install
 
 1. Clone the repository
     ```http
@@ -27,6 +27,14 @@
 OR--
 1. (Apk 주소)를 Android phone에 다운로드 한다. 
 2. Remember to "Allowing app installs from Unknown Sources in Android"
+
+## How To Test
+
+1. 앱을 실행하면 HOME화면으로 연결됩니다.
+2. 하단의 버튼 바에서 카메라 모양 아이콘을 터치하면 운전자 모니터링을 할 수 있는 탭으로 이동합니다.
+3. 모니터링 탭에서 하단의 Start 버튼을 누르면 운전자 모니터링이 시작됩니다.
+4. 모니터링 중에는 여러 인공지능 모델이 운전자의 부주의와 졸음을 감지하고 알립니다.
+5. 모니터링을 멈추고 싶다면 하단의 Stop 버튼을 누릅니다. 
 
 ## Features
 
