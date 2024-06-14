@@ -28,7 +28,7 @@
 
 1. Clone the repository
     ```http
-     https://github.com/SurajKRB/RepDetect.git
+     https://github.com/SurajKRB/RepDetect.git](https://github.com/aajin126/DriveGuardian.git
     ```
 2. Android Studio에서 파일을 Open한다. 
 
