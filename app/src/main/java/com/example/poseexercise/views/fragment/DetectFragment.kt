@@ -55,6 +55,10 @@ import kotlinx.coroutines.launch
 import java.util.Locale
 import java.util.Timer
 import java.util.TimerTask
+import android.media.MediaPlayer
+import com.example.poseexercise.alerting.AlertProcessor
+import com.google.mlkit.vision.pose.Pose
+import com.google.mlkit.vision.face.Face
 
 /**
  * Fragment responsible for handling the workout process, camera usage, and exercise tracking.
@@ -103,6 +107,9 @@ class DetectFragment : Fragment(), MemoryManagement,
     private lateinit var textToSpeech: TextToSpeech
     private lateinit var yogaPoseImage: ImageView
 
+    // alert
+    //private lateinit var alertProcessor: AlertProcessor
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (!allRuntimePermissionsGranted()) {
@@ -129,7 +136,7 @@ class DetectFragment : Fragment(), MemoryManagement,
         cameraFlipFAB = view.findViewById(R.id.facing_switch)
         startButton = view.findViewById(R.id.button_start_exercise)
 
-        yawnButton = view.findViewById(R.id.button_start_yawn)
+        //yawnButton = view.findViewById(R.id.button_start_yawn)
 
         buttonCompleteExercise = view.findViewById(R.id.button_complete_exercise)
         // buttonCancelExercise = view.findViewById(R.id.button_cancel_exercise)
@@ -191,9 +198,11 @@ class DetectFragment : Fragment(), MemoryManagement,
         // val gifContainer: FrameLayout = view.findViewById(R.id.gifContainer)
         graphicOverlay = view.findViewById(R.id.graphic_overlay)
 
+        //alertProcessor = AlertProcessor(requireContext())
+
         cameraFlipFAB.visibility = View.VISIBLE
         startButton.visibility = View.VISIBLE
-        yawnButton.visibility = View.VISIBLE
+        //yawnButton.visibility = View.GONE
 
 
         // start exercise button
@@ -209,6 +218,7 @@ class DetectFragment : Fragment(), MemoryManagement,
 
         // 현재 액티비티(MainActivity)에서 DetectorActivity로의 새로운 인텐트를 생성 및 시작
         // 이 버튼을 누르면 DetectorActivity로 화면전환이 이루어짐 !!
+        /*
         yawnButton.setOnClickListener(View.OnClickListener { v: View? ->
             activity?.finishAffinity()
             startActivity(
@@ -219,6 +229,8 @@ class DetectFragment : Fragment(), MemoryManagement,
 
             )
         })
+
+         */
 
 
         buttonCompleteExercise.setOnClickListener {
@@ -361,6 +373,7 @@ class DetectFragment : Fragment(), MemoryManagement,
                         val rescaleZ = PreferenceUtils.shouldPoseDetectionRescaleZForVisualization(getContext())
                         val runClassification = PreferenceUtils.shouldPoseDetectionRunClassification(getContext())
                         val faceDetectorOptions = PreferenceUtils.getFaceDetectorOptions(getContext())
+
                         CombinedPoseAndFaceProcessor(
                             requireContext(),
                             poseDetectorOptions,
@@ -417,6 +430,13 @@ class DetectFragment : Fragment(), MemoryManagement,
         cameraProvider!!.bindToLifecycle(this, cameraSelector!!, analysisUseCase)
     }
 
+    private fun processPoseResult(pose: Pose) {
+        //alertProcessor.processPose(pose)
+    }
+
+    private fun processFaceResult(faces: List<Face>) {
+        //alertProcessor.processFace(faces)
+    }
 
     /**
      * Check if all required runtime permissions are granted

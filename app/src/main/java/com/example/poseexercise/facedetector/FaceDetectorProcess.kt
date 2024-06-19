@@ -3,12 +3,14 @@ package com.example.poseexercise.facedetector
 import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
+import com.example.poseexercise.alerting.AlertProcessor
 import com.example.poseexercise.util.FrameMetadata
 import com.example.poseexercise.util.VisionProcessorBase
 import com.example.poseexercise.views.fragment.DetectFragment
 import com.example.poseexercise.views.graphic.FaceGraphic
 import com.example.poseexercise.views.graphic.GraphicOverlay
 import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.TaskCompletionSource
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.face.Face
 import com.google.mlkit.vision.face.FaceDetection
@@ -22,6 +24,7 @@ class FaceDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptio
     VisionProcessorBase<List<Face>>(context) {
 
     private val detector: FaceDetector
+    //private lateinit var alertProcessor: AlertProcessor
 
     init {
         val options = detectorOptions
@@ -31,6 +34,7 @@ class FaceDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptio
                 .build()
 
         detector = FaceDetection.getClient(options)
+        //alertProcessor = AlertProcessor(context)
 
         Log.v(MANUAL_TESTING_LOG, "Face detector options: $options")
     }
@@ -53,7 +57,15 @@ class FaceDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptio
     }
 
     public override fun detectInImage(image: InputImage): Task<List<Face>> {
-        return detector.process(image)
+        val taskCompletionSource = TaskCompletionSource<List<Face>>()
+        detector.process(image)
+            .addOnSuccessListener { faces ->
+                taskCompletionSource.setResult(faces)
+            }
+            .addOnFailureListener { e ->
+                taskCompletionSource.setException(e)
+            }
+        return taskCompletionSource.task
     }
 
     public override fun onSuccess(faces: List<Face>, graphicOverlay: GraphicOverlay) {
@@ -61,6 +73,8 @@ class FaceDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptio
             graphicOverlay.add(FaceGraphic(graphicOverlay, face))
             logExtrasForTesting(face)
         }
+        //alertProcessor.processFace(faces)
+
     }
 
     public override fun onFailure(e: Exception) {
