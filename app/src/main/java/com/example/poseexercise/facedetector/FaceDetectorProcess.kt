@@ -17,6 +17,9 @@ import com.google.mlkit.vision.face.FaceDetection
 import com.google.mlkit.vision.face.FaceDetector
 import com.google.mlkit.vision.face.FaceDetectorOptions
 import com.google.mlkit.vision.face.FaceLandmark
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.nio.ByteBuffer
 import java.util.Locale
 
@@ -24,7 +27,7 @@ class FaceDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptio
     VisionProcessorBase<List<Face>>(context) {
 
     private val detector: FaceDetector
-    //private lateinit var alertProcessor: AlertProcessor
+    private lateinit var alertProcessor: AlertProcessor
 
     init {
         val options = detectorOptions
@@ -34,7 +37,7 @@ class FaceDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptio
                 .build()
 
         detector = FaceDetection.getClient(options)
-        //alertProcessor = AlertProcessor(context)
+        alertProcessor = AlertProcessor(context)
 
         Log.v(MANUAL_TESTING_LOG, "Face detector options: $options")
     }
@@ -56,6 +59,19 @@ class FaceDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptio
         detector.close()
     }
 
+    /* origin
+    public override fun detectInImage(image: InputImage): Task<List<Face>> {
+        val taskCompletionSource = TaskCompletionSource<List<Face>>()
+        detector.process(image)
+            .addOnSuccessListener { faces ->
+                taskCompletionSource.setResult(faces)
+            }
+            .addOnFailureListener { e ->
+                taskCompletionSource.setException(e)
+            }
+        return taskCompletionSource.task
+    }*/
+
     public override fun detectInImage(image: InputImage): Task<List<Face>> {
         val taskCompletionSource = TaskCompletionSource<List<Face>>()
         detector.process(image)
@@ -68,14 +84,27 @@ class FaceDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptio
         return taskCompletionSource.task
     }
 
-    public override fun onSuccess(faces: List<Face>, graphicOverlay: GraphicOverlay) {
-        for (face in faces) {
-            graphicOverlay.add(FaceGraphic(graphicOverlay, face))
-            logExtrasForTesting(face)
-        }
-        //alertProcessor.processFace(faces)
 
+    public override fun onSuccess(faces: List<Face>, graphicOverlay: GraphicOverlay) {
+        GlobalScope.launch(Dispatchers.Main) {
+            for (face in faces) {
+                graphicOverlay.add(FaceGraphic(graphicOverlay, face))
+                logExtrasForTesting(face)
+            }
+            alertProcessor.processFace(faces)
+        }
     }
+
+    /*
+    public override fun onSuccess(faces: List<Face>, graphicOverlay: GraphicOverlay) {
+        GlobalScope.launch(Dispatchers.Main) {
+            for (face in faces) {
+                graphicOverlay.add(FaceGraphic(graphicOverlay, face))
+                logExtrasForTesting(face)
+            }
+            alertProcessor.processFace(faces)
+        }
+    }*/
 
     public override fun onFailure(e: Exception) {
         Log.e(TAG, "Face detection failed $e")
