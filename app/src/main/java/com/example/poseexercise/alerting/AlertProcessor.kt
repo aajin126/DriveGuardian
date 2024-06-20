@@ -86,7 +86,6 @@ class AlertProcessor(private val context: Context) {
 
                 }
 
-
             }
             if(leftEyeInner == null && leftEyeOuter == null && rightEyeInner == null && rightEyeOuter == null  && rightShoulder == null && leftShoulder == null){
 

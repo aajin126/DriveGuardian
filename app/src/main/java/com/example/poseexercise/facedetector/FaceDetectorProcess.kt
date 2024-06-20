@@ -63,19 +63,6 @@ class FaceDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptio
         detector.close()
     }
 
-    /* origin
-    public override fun detectInImage(image: InputImage): Task<List<Face>> {
-        val taskCompletionSource = TaskCompletionSource<List<Face>>()
-        detector.process(image)
-            .addOnSuccessListener { faces ->
-                taskCompletionSource.setResult(faces)
-            }
-            .addOnFailureListener { e ->
-                taskCompletionSource.setException(e)
-            }
-        return taskCompletionSource.task
-    }*/
-
     public override fun detectInImage(image: InputImage): Task<List<Face>> {
         val taskCompletionSource = TaskCompletionSource<List<Face>>()
         detector.process(image)
@@ -100,17 +87,6 @@ class FaceDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptio
 
         }
     }
-
-    /*
-    public override fun onSuccess(faces: List<Face>, graphicOverlay: GraphicOverlay) {
-        GlobalScope.launch(Dispatchers.Main) {
-            for (face in faces) {
-                graphicOverlay.add(FaceGraphic(graphicOverlay, face))
-                logExtrasForTesting(face)
-            }
-            alertProcessor.processFace(faces)
-        }
-    }*/
 
     public override fun onFailure(e: Exception) {
         Log.e(TAG, "Face detection failed $e")

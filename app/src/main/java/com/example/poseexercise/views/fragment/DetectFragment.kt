@@ -115,7 +115,7 @@ class DetectFragment : Fragment(), MemoryManagement,
         }
         initTextToSpeech()
         cameraSelector = CameraSelector.Builder().requireLensFacing(lensFacing).build()
-        //CameraXViewModel을 생성하여 cameraViewModel 변수에 할당합니다. ViewModelProvider를 통해 ViewModel을 제공받습니다.
+        //CameraXViewModel을 생성하여 cameraViewModel 변수에 할당
         cameraViewModel = ViewModelProvider(
             this, ViewModelProvider.AndroidViewModelFactory
                 .getInstance(requireActivity().application)
@@ -134,7 +134,6 @@ class DetectFragment : Fragment(), MemoryManagement,
         cameraFlipFAB = view.findViewById(R.id.facing_switch)
         startButton = view.findViewById(R.id.button_start_exercise)
 
-        //yawnButton = view.findViewById(R.id.button_start_yawn)
 
         buttonCompleteExercise = view.findViewById(R.id.button_complete_exercise)
         // buttonCancelExercise = view.findViewById(R.id.button_cancel_exercise)
@@ -154,7 +153,7 @@ class DetectFragment : Fragment(), MemoryManagement,
 
         workoutRecyclerView = view.findViewById(R.id.workoutRecycleViewArea)
         workoutRecyclerView.layoutManager = LinearLayoutManager(activity)
-        //yogaPoseImage = view.findViewById(R.id.yogaPoseSnapShot)
+
         return view
     }
 
@@ -196,7 +195,6 @@ class DetectFragment : Fragment(), MemoryManagement,
         // val gifContainer: FrameLayout = view.findViewById(R.id.gifContainer)
         graphicOverlay = view.findViewById(R.id.graphic_overlay)
 
-        //alertProcessor = AlertProcessor(requireContext())
 
         cameraFlipFAB.visibility = View.VISIBLE
         startButton.visibility = View.VISIBLE
@@ -212,22 +210,6 @@ class DetectFragment : Fragment(), MemoryManagement,
             buttonCompleteExercise.visibility = View.VISIBLE
             startButton.visibility = View.GONE
         }
-
-        // 현재 액티비티(MainActivity)에서 DetectorActivity로의 새로운 인텐트를 생성 및 시작
-        // 이 버튼을 누르면 DetectorActivity로 화면전환이 이루어짐 !!
-        /*
-        yawnButton.setOnClickListener(View.OnClickListener { v: View? ->
-            activity?.finishAffinity()
-            startActivity(
-                Intent(
-                    context,
-                    DetectorActivity::class.java
-                )
-
-            )
-        })
-
-         */
 
 
         buttonCompleteExercise.setOnClickListener {

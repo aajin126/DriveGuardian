@@ -91,44 +91,6 @@ class PoseDetectorProcessor(
         detector.close()
     }
 
-    /* Origin
-    public override fun detectInImage(image: InputImage): Task<PoseWithClassification> {
-        return detector
-            .process(image)
-            .continueWith(
-                classificationExecutor
-            ) { task ->
-                val pose = task.getResult()
-                var classificationResult: List<String> = ArrayList()
-                if (runClassification) {
-                    if (poseClassifierProcessor == null) {
-                        poseClassifierProcessor = PoseClassifierProcessor(context, isStreamMode)
-                    }
-                    classificationResult = poseClassifierProcessor!!.getPoseResult(pose)
-                }
-                PoseWithClassification(pose, classificationResult)
-            }
-    }*/
-
-    /*
-    public override fun detectInImage(image: InputImage): Task<PoseWithClassification> {
-        return detector
-            .process(image)
-            .continueWith(
-                classificationExecutor
-            ) { task ->
-                val pose = task.getResult()
-                var classificationResult: List<String> = ArrayList()
-                if (runClassification) {
-                    if (poseClassifierProcessor == null) {
-                        poseClassifierProcessor = PoseClassifierProcessor(context, isStreamMode)
-                    }
-                    classificationResult = poseClassifierProcessor!!.getPoseResult(pose)
-                }
-                PoseWithClassification(pose, classificationResult)
-            }
-    }*/
-
 
     public override fun detectInImage(image: InputImage): Task<PoseWithClassification> {
         val taskCompletionSource = TaskCompletionSource<PoseDetectorProcessor.PoseWithClassification>()
@@ -155,28 +117,6 @@ class PoseDetectorProcessor(
         return taskCompletionSource.task
     }
 
-
-    /* origin
-    public override fun onSuccess(
-        poseWithClassification: PoseWithClassification,
-        graphicOverlay: GraphicOverlay
-    ) {
-        graphicOverlay.add(
-            PoseGraphic(
-                graphicOverlay,
-                poseWithClassification.pose,
-                showInFrameLikelihood,
-                visualizeZ,
-                rescaleZForVisualization,
-                poseWithClassification.classificationResult
-            )
-        )
-        if (poseWithClassification.pose != null) {
-            alertProcessor.processPose(poseWithClassification.pose)
-        } else {
-            Log.e(TAG, "Pose is not available for alert processing.")
-        }
-    }*/
 
     public override fun onSuccess(
         poseWithClassification: PoseWithClassification,
