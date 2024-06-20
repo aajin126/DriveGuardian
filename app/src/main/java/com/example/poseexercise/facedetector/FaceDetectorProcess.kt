@@ -3,18 +3,25 @@ package com.example.poseexercise.facedetector
 import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import com.example.poseexercise.R
+import com.example.poseexercise.alerting.AlertProcessor
 import com.example.poseexercise.util.FrameMetadata
 import com.example.poseexercise.util.VisionProcessorBase
 import com.example.poseexercise.views.fragment.DetectFragment
 import com.example.poseexercise.views.graphic.FaceGraphic
 import com.example.poseexercise.views.graphic.GraphicOverlay
 import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.TaskCompletionSource
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.face.Face
 import com.google.mlkit.vision.face.FaceDetection
 import com.google.mlkit.vision.face.FaceDetector
 import com.google.mlkit.vision.face.FaceDetectorOptions
 import com.google.mlkit.vision.face.FaceLandmark
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.nio.ByteBuffer
 import java.util.Locale
 
@@ -22,15 +29,19 @@ class FaceDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptio
     VisionProcessorBase<List<Face>>(context) {
 
     private val detector: FaceDetector
+    private lateinit var alertProcessor: AlertProcessor
 
     init {
-        val options = detectorOptions
-            ?: FaceDetectorOptions.Builder()
+        val options = FaceDetectorOptions.Builder()
+                .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_ACCURATE)
+                .setLandmarkMode(FaceDetectorOptions.LANDMARK_MODE_ALL)
                 .setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_ALL)
                 .enableTracking()
                 .build()
 
         detector = FaceDetection.getClient(options)
+        alertProcessor = AlertProcessor(context)
+
 
         Log.v(MANUAL_TESTING_LOG, "Face detector options: $options")
     }
@@ -53,13 +64,27 @@ class FaceDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptio
     }
 
     public override fun detectInImage(image: InputImage): Task<List<Face>> {
-        return detector.process(image)
+        val taskCompletionSource = TaskCompletionSource<List<Face>>()
+        detector.process(image)
+            .addOnSuccessListener { faces ->
+                Log.d(TAG, "Face detection success. Number of faces detected: ${faces.size}")
+                taskCompletionSource.setResult(faces)
+            }
+            .addOnFailureListener { e ->
+                taskCompletionSource.setException(e)
+            }
+        return taskCompletionSource.task
     }
 
+
     public override fun onSuccess(faces: List<Face>, graphicOverlay: GraphicOverlay) {
-        for (face in faces) {
-            graphicOverlay.add(FaceGraphic(graphicOverlay, face))
-            logExtrasForTesting(face)
+        GlobalScope.launch(Dispatchers.Main) {
+            for (face in faces) {
+                graphicOverlay.add(FaceGraphic(graphicOverlay, face))
+                logExtrasForTesting(face)
+            }
+            alertProcessor.processFace(faces)
+
         }
     }
 

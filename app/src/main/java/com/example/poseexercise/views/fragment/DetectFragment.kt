@@ -55,6 +55,10 @@ import kotlinx.coroutines.launch
 import java.util.Locale
 import java.util.Timer
 import java.util.TimerTask
+import android.media.MediaPlayer
+import com.example.poseexercise.alerting.AlertProcessor
+import com.google.mlkit.vision.pose.Pose
+import com.google.mlkit.vision.face.Face
 
 /**
  * Fragment responsible for handling the workout process, camera usage, and exercise tracking.
@@ -71,7 +75,7 @@ class DetectFragment : Fragment(), MemoryManagement,
     private var imageProcessor: VisionImageProcessor? = null
     private var needUpdateGraphicOverlayImageSourceInfo = false
     private var selectedModel = POSE_DETECTION
-    private var lensFacing = CameraSelector.LENS_FACING_BACK
+    private var lensFacing = CameraSelector.LENS_FACING_FRONT
     private var cameraSelector: CameraSelector? = null
 
     private var mRecTimer: Timer? = null
@@ -103,6 +107,7 @@ class DetectFragment : Fragment(), MemoryManagement,
     private lateinit var textToSpeech: TextToSpeech
     private lateinit var yogaPoseImage: ImageView
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (!allRuntimePermissionsGranted()) {
@@ -110,7 +115,7 @@ class DetectFragment : Fragment(), MemoryManagement,
         }
         initTextToSpeech()
         cameraSelector = CameraSelector.Builder().requireLensFacing(lensFacing).build()
-        //CameraXViewModel을 생성하여 cameraViewModel 변수에 할당합니다. ViewModelProvider를 통해 ViewModel을 제공받습니다.
+        //CameraXViewModel을 생성하여 cameraViewModel 변수에 할당
         cameraViewModel = ViewModelProvider(
             this, ViewModelProvider.AndroidViewModelFactory
                 .getInstance(requireActivity().application)
@@ -129,7 +134,6 @@ class DetectFragment : Fragment(), MemoryManagement,
         cameraFlipFAB = view.findViewById(R.id.facing_switch)
         startButton = view.findViewById(R.id.button_start_exercise)
 
-        yawnButton = view.findViewById(R.id.button_start_yawn)
 
         buttonCompleteExercise = view.findViewById(R.id.button_complete_exercise)
         // buttonCancelExercise = view.findViewById(R.id.button_cancel_exercise)
@@ -149,7 +153,7 @@ class DetectFragment : Fragment(), MemoryManagement,
 
         workoutRecyclerView = view.findViewById(R.id.workoutRecycleViewArea)
         workoutRecyclerView.layoutManager = LinearLayoutManager(activity)
-        //yogaPoseImage = view.findViewById(R.id.yogaPoseSnapShot)
+
         return view
     }
 
@@ -191,9 +195,9 @@ class DetectFragment : Fragment(), MemoryManagement,
         // val gifContainer: FrameLayout = view.findViewById(R.id.gifContainer)
         graphicOverlay = view.findViewById(R.id.graphic_overlay)
 
+
         cameraFlipFAB.visibility = View.VISIBLE
         startButton.visibility = View.VISIBLE
-        yawnButton.visibility = View.VISIBLE
 
 
         // start exercise button
@@ -206,19 +210,6 @@ class DetectFragment : Fragment(), MemoryManagement,
             buttonCompleteExercise.visibility = View.VISIBLE
             startButton.visibility = View.GONE
         }
-
-        // 현재 액티비티(MainActivity)에서 DetectorActivity로의 새로운 인텐트를 생성 및 시작
-        // 이 버튼을 누르면 DetectorActivity로 화면전환이 이루어짐 !!
-        yawnButton.setOnClickListener(View.OnClickListener { v: View? ->
-            activity?.finishAffinity()
-            startActivity(
-                Intent(
-                    context,
-                    DetectorActivity::class.java
-                )
-
-            )
-        })
 
 
         buttonCompleteExercise.setOnClickListener {
@@ -361,6 +352,7 @@ class DetectFragment : Fragment(), MemoryManagement,
                         val rescaleZ = PreferenceUtils.shouldPoseDetectionRescaleZForVisualization(getContext())
                         val runClassification = PreferenceUtils.shouldPoseDetectionRunClassification(getContext())
                         val faceDetectorOptions = PreferenceUtils.getFaceDetectorOptions(getContext())
+
                         CombinedPoseAndFaceProcessor(
                             requireContext(),
                             poseDetectorOptions,
@@ -417,6 +409,13 @@ class DetectFragment : Fragment(), MemoryManagement,
         cameraProvider!!.bindToLifecycle(this, cameraSelector!!, analysisUseCase)
     }
 
+    private fun processPoseResult(pose: Pose) {
+        //alertProcessor.processPose(pose)
+    }
+
+    private fun processFaceResult(faces: List<Face>) {
+        //alertProcessor.processFace(faces)
+    }
 
     /**
      * Check if all required runtime permissions are granted
