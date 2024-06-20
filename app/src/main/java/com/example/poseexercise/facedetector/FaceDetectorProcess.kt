@@ -3,6 +3,8 @@ package com.example.poseexercise.facedetector
 import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import com.example.poseexercise.R
 import com.example.poseexercise.alerting.AlertProcessor
 import com.example.poseexercise.util.FrameMetadata
 import com.example.poseexercise.util.VisionProcessorBase
@@ -30,14 +32,16 @@ class FaceDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptio
     private lateinit var alertProcessor: AlertProcessor
 
     init {
-        val options = detectorOptions
-            ?: FaceDetectorOptions.Builder()
+        val options = FaceDetectorOptions.Builder()
+                .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_ACCURATE)
+                .setLandmarkMode(FaceDetectorOptions.LANDMARK_MODE_ALL)
                 .setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_ALL)
                 .enableTracking()
                 .build()
 
         detector = FaceDetection.getClient(options)
         alertProcessor = AlertProcessor(context)
+
 
         Log.v(MANUAL_TESTING_LOG, "Face detector options: $options")
     }
@@ -76,6 +80,7 @@ class FaceDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptio
         val taskCompletionSource = TaskCompletionSource<List<Face>>()
         detector.process(image)
             .addOnSuccessListener { faces ->
+                Log.d(TAG, "Face detection success. Number of faces detected: ${faces.size}")
                 taskCompletionSource.setResult(faces)
             }
             .addOnFailureListener { e ->
@@ -92,6 +97,7 @@ class FaceDetectorProcessor(context: Context, detectorOptions: FaceDetectorOptio
                 logExtrasForTesting(face)
             }
             alertProcessor.processFace(faces)
+
         }
     }
 

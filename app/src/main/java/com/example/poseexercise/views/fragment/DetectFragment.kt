@@ -75,7 +75,7 @@ class DetectFragment : Fragment(), MemoryManagement,
     private var imageProcessor: VisionImageProcessor? = null
     private var needUpdateGraphicOverlayImageSourceInfo = false
     private var selectedModel = POSE_DETECTION
-    private var lensFacing = CameraSelector.LENS_FACING_BACK
+    private var lensFacing = CameraSelector.LENS_FACING_FRONT
     private var cameraSelector: CameraSelector? = null
 
     private var mRecTimer: Timer? = null
@@ -107,8 +107,6 @@ class DetectFragment : Fragment(), MemoryManagement,
     private lateinit var textToSpeech: TextToSpeech
     private lateinit var yogaPoseImage: ImageView
 
-    // alert
-    //private lateinit var alertProcessor: AlertProcessor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -202,7 +200,6 @@ class DetectFragment : Fragment(), MemoryManagement,
 
         cameraFlipFAB.visibility = View.VISIBLE
         startButton.visibility = View.VISIBLE
-        //yawnButton.visibility = View.GONE
 
 
         // start exercise button

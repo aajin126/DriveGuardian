@@ -19,6 +19,8 @@ package com.example.poseexercise.posedetector
 import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import com.example.poseexercise.R
 import com.example.poseexercise.alerting.AlertProcessor
 import com.google.android.gms.tasks.Task
 import com.google.android.odml.image.MlImage
@@ -27,6 +29,7 @@ import com.example.poseexercise.views.graphic.GraphicOverlay
 import com.example.poseexercise.posedetector.classification.PoseClassifierProcessor
 import com.example.poseexercise.util.FrameMetadata
 import com.example.poseexercise.util.VisionProcessorBase
+import com.example.poseexercise.views.fragment.DetectFragment
 import com.example.poseexercise.views.graphic.PoseGraphic
 import com.google.android.gms.tasks.TaskCompletionSource
 import com.google.android.gms.tasks.Tasks
@@ -59,6 +62,8 @@ class PoseDetectorProcessor(
 
     private lateinit var alertProcessor: AlertProcessor
 
+
+
     /** Internal class to hold Pose and classification results. */
     class PoseWithClassification(val pose: Pose, val classificationResult: List<String>)
 
@@ -66,6 +71,7 @@ class PoseDetectorProcessor(
         detector = PoseDetection.getClient(options)
         classificationExecutor = Executors.newSingleThreadExecutor()
         alertProcessor = AlertProcessor(context)
+
     }
 
     override fun processBitmap(bitmap: Bitmap?, graphicOverlay: GraphicOverlay?) {
@@ -188,6 +194,7 @@ class PoseDetectorProcessor(
                 )
             )
             alertProcessor.processPose(poseWithClassification.pose)
+
         }
     }
 
